@@ -1,20 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
 	//FLOATING POINT VARIABLE TO STORE PLAYER MOVEMENT
 	public float speed;
+	//VARIABLE TO STORE COUNT OF PICKUP OBJECTS
+	public Text countText;
+
+	public Text winText;
+
 
 	//STORE A REFERENCE TO THE Rigidbody2D COMPONENT REQUIRED TO USE 2D PHYSICS
 	private Rigidbody2D rb2d;
+
+	//	
+	private int count;
 
 	//INITIALIZES 2D REFERENCE
 	void Start() 
 	{
 		//GET STORE REFERENCE TO Rigidbody2D COMPONENT SO WE CAN ACCESS IT
 		rb2d = GetComponent<Rigidbody2D> ();
+		count = 0;
+		winText.text = "";
+		SetCountText ();
 	}
 
 
@@ -40,6 +52,19 @@ public class PlayerController : MonoBehaviour {
 		if (other.gameObject.CompareTag("Pickup"))
 		{
 			other.gameObject.SetActive(false);
+			count = count + 1;
+			SetCountText ();	
 		}
 	}
+
+	void SetCountText()
+	{
+		countText.text = "Count: " + count.ToString ();
+
+		if (count >= 11) 
+		{
+			winText.text = "You Win!";
+		}
+	}
+ 	
 }
